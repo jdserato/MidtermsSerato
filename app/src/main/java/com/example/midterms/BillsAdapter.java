@@ -28,6 +28,12 @@ public class BillsAdapter extends ArrayAdapter<Bill> {
     // TODO Milestone B: Show History.
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LinearLayout billView;
+        Bill bill = getItem(position);
+        int bill_prev = bill.previous;
+        int bill_curr = bill.current;
+        int bill_month = bill.month;
+        double bill_cons = bill.consumption();
+        double bill_payment = bill.get_bill();
 
         if (convertView == null) {
             billView = new LinearLayout(getContext());
@@ -37,6 +43,18 @@ public class BillsAdapter extends ArrayAdapter<Bill> {
         } else {
             billView = (LinearLayout) convertView;
         }
+
+        TextView tvMonth = billView.findViewById(R.id.tvMonth);
+        TextView tvConsumption = billView.findViewById(R.id.tvConsumption);
+        TextView tvPayment = billView.findViewById(R.id.tvPayment);
+        TextView tvCurrent = billView.findViewById(R.id.tvCurrent);
+        TextView tvPrevious = billView.findViewById(R.id.tvPrevious);
+
+        tvMonth.setText(bill_month + "");
+        tvConsumption.setText(bill_cons + "");
+        tvCurrent.setText(bill_curr + "");
+        tvPayment.setText(bill_payment + "");
+        tvPrevious.setText(bill_prev + "");
 
         return billView;
     }

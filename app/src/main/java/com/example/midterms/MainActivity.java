@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Pipe> pipeTypes;
     ArrayAdapter<Pipe> pipeAdapter;
     ArrayList<Bill> bills;
+    BillsAdapter billsAdapter;
     int month;
     int last_consumption;
 
@@ -70,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO Milestone B: Show History.
     private void setHistoryAdapter() {
-
+        ListView lvHistory = findViewById(R.id.lvHistory);
+        billsAdapter = new BillsAdapter(getBaseContext(), R.layout.bills_layout, bills);
+        lvHistory.setAdapter(billsAdapter);
     }
 
     // // TODO Milestone 3: Calculate bill.
@@ -97,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                     pack = 3; // Premium Package
                 }
                 Bill new_bill = new Bill(prev, curr, type, pack, month);
+                bills.add(new_bill);
+                billsAdapter.notifyDataSetChanged();
                 month++;
                 double bill = new_bill.get_bill();
                 EditText etResult = findViewById(R.id.etResult);
