@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BillDialogFragment.ErrorDialogListener {
     ArrayList<Pipe> pipeTypes;
     ArrayAdapter<Pipe> pipeAdapter;
     ArrayList<Bill> bills;
@@ -85,7 +85,19 @@ public class MainActivity extends AppCompatActivity {
                 EditText etPrev = findViewById(R.id.etPrev);
                 int prev = Integer.parseInt(etPrev.getText().toString());
                 EditText etNext = findViewById(R.id.etNew);
-                int curr = Integer.parseInt(etNext.getText().toString());
+                int curr = 0;
+                try {
+                    curr = Integer.parseInt(etNext.getText().toString());
+                } catch (Exception e) {
+                    BillDialogFragment dialog = new BillDialogFragment();
+                    dialog.show(getSupportFragmentManager(), "vince");
+                    return;
+                }
+                if (prev > curr) {
+                    BillDialogFragment dialog = new BillDialogFragment();
+                    dialog.show(getSupportFragmentManager(), "vince");
+                    return;
+                }
                 Spinner spPipe = findViewById(R.id.spPipe);
                 Pipe type = (Pipe) spPipe.getSelectedItem();
                 RadioButton rbBasic = findViewById(R.id.rbBasic);
@@ -101,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Bill new_bill = new Bill(prev, curr, type, pack, month);
                 bills.add(new_bill);
+                last_consumption = curr - prev;
                 billsAdapter.notifyDataSetChanged();
                 month++;
                 double bill = new_bill.get_bill();
@@ -125,5 +138,21 @@ public class MainActivity extends AppCompatActivity {
         Spinner spPipe = findViewById(R.id.spPipe);
         pipeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, pipeTypes);
         spPipe.setAdapter(pipeAdapter);
+    }
+
+    @Override
+    public void onYesListenerMethod(DialogFragment dialog) {
+        EditText etPrev = findViewById(R.id.etPrev);
+        int prev = Integer.parseInt(etPrev.getText().toString());
+        int read = prev + last_consumption;
+        EditText etNext = findViewById(R.id.etNew);
+        etNext.setText(read + "");
+    }
+
+    @Override
+    public void onNoListenerMethod(DialogFragment dialog) {
+
+        EditText etNext = findViewById(R.id.etNew);
+        etNext.setText("");
     }
 }

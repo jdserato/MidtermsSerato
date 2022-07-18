@@ -13,13 +13,40 @@ import androidx.fragment.app.DialogFragment;
 
 // TODO Milestone C: Add error dialog
 public class BillDialogFragment extends DialogFragment {
+    ErrorDialogListener listener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            listener = (ErrorDialogListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString() + " must implement ErrorDialogListener");
+        }
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
+        builder.setMessage("Invalid input. Do you want to use the same reading difference as last month?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        listener.onYesListenerMethod(BillDialogFragment.this);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        listener.onNoListenerMethod(BillDialogFragment.this);
+                    }
+                });
         return builder.create();
     }
 
+    public interface ErrorDialogListener {
+        public void onYesListenerMethod(DialogFragment dialog);
+        public void onNoListenerMethod(DialogFragment dialog);
+    }
 }
