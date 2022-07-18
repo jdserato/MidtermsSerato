@@ -122,27 +122,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <RadioButton
-                    android:id="@+id/rbPremium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="33"
-                    android:text="Premium" />
+                    android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/rbRegular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="33"
-                    android:checked="true"
-                    android:text="Regular" />
+                    <RadioButton
+                        android:id="@+id/rbBasic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="33"
+                        android:text="Basic" />
 
-                <RadioButton
-                    android:id="@+id/rbBasic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="33"
-                    android:text="Basic" />
+                    <RadioButton
+                        android:id="@+id/rbPremium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="33"
+                        android:text="Premium" />
+
+                    <RadioButton
+                        android:id="@+id/rbRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="33"
+                        android:checked="true"
+                        android:text="Regular" />
+                </RadioGroup>
 
             </LinearLayout>
         </TableRow>
