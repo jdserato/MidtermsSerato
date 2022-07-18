@@ -11,4 +11,8 @@ public class Pipe {
 
     // TODO Milestone 1: Fix spPipe adapter.
 
+    @Override
+    public String toString() {
+        return brand + "(" + diameter + ")";
+    }
 }
